@@ -54,9 +54,11 @@ github-overview --help     # All options
 - **`github-overview`** is published automatically by
   [GoReleaser](https://goreleaser.com) on every release from the
   `toshon-jennings/github-overview` repository. Do not hand-edit the generated
-  formula; change `.goreleaser.yml` in that repo instead. Note that GoReleaser
-  always emits an explicit `version` line, which Homebrew flags as redundant in
-  `brew audit` — delete that one line after each release so CI stays green.
+  formula; change `.goreleaser.yml` in that repo instead. GoReleaser emits a
+  redundant `version` line (Homebrew flags it in `brew audit`); the
+  [`normalize-formula.yml`](.github/workflows/normalize-formula.yml) workflow
+  strips it automatically after each release, and CI does the same before
+  auditing.
 - **`cleanmac`** is updated by the
   [`update-cleanmac.yml`](.github/workflows/update-cleanmac.yml) workflow when a
   new release is tagged (or manually via `workflow_dispatch` with a tag input).
