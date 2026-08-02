@@ -5,8 +5,12 @@
 class GithubOverview < Formula
   desc "Local command center dashboard for monitoring multiple GitHub repositories"
   homepage "https://github.com/toshon-jennings/github-overview"
-  version "0.1.1"
   license "MIT"
+
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
 
   on_macos do
     if Hardware::CPU.intel?
@@ -45,6 +49,6 @@ class GithubOverview < Formula
   end
 
   test do
-    system "#{bin}/github-overview", "--help"
+    assert_match "no repos tracked", shell_output("#{bin}/github-overview list -db #{testpath}/test.db")
   end
 end

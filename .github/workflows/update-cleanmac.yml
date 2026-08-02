@@ -3,8 +3,6 @@ name: Update Cleanmac Formula
 on:
   release:
     types: [published]
-    paths:
-      - '**'
 
   workflow_dispatch:
     inputs:
@@ -24,31 +22,33 @@ jobs:
         id: version
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "tag=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
           else
-            echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Get tarball sha256
         id: sha
         run: |
+          set -euo pipefail
           TAG="${{ steps.version.outputs.tag }}"
           URL="https://github.com/toshon-jennings/cleanmac/archive/refs/tags/${TAG}.tar.gz"
-          SHA=$(curl -sL "$URL" | shasum -a 256 | cut -d' ' -f1)
-          echo "sha256=$SHA" >> $GITHUB_OUTPUT
+          SHA=$(curl -sL --fail "$URL" | shasum -a 256 | cut -d' ' -f1)
+          echo "sha256=$SHA" >> "$GITHUB_OUTPUT"
           echo "Downloaded and hashed $URL"
 
       - name: Update formula
         run: |
+          set -euo pipefail
           TAG="${{ steps.version.outputs.tag }}"
-          VERSION="${TAG#v}"
           SHA="${{ steps.sha.outputs.sha256 }}"
           FORMULA="Formula/cleanmac.rb"
 
-          sed -i.bak "s|url \".*\"|url \"https://github.com/toshon-jennings/cleanmac/archive/refs/tags/${TAG}.tar.gz\"|" "$FORMULA"
-          sed -i.bak "s|version \".*\"|version \"${VERSION}\"|" "$FORMULA"
-          sed -i.bak "s|sha256 \".*\"|sha256 \"${SHA}\"|" "$FORMULA"
+          sed -i.bak "s|^  url \".*\"|  url \"https://github.com/toshon-jennings/cleanmac/archive/refs/tags/${TAG}.tar.gz\"|" "$FORMULA"
+          sed -i.bak "s|^  sha256 \".*\"|  sha256 \"${SHA}\"|" "$FORMULA"
           rm -f "${FORMULA}.bak"
+
+          ruby -c "$FORMULA"
 
           echo "Updated $FORMULA to $TAG (sha256: $SHA)"
 

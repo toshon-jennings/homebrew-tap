@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Audit formulae
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Tap repository
+        run: brew tap toshon-jennings/tap "$PWD"
+
+      - name: Audit formulae (strict, online)
+        run: brew audit --strict --online cleanmac github-overview
+
+  style:
+    name: Style check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Tap repository
+        run: brew tap toshon-jennings/tap "$PWD"
+
+      - name: Check formula style and syntax
+        run: brew style cleanmac github-overview
+
+  test:
+    name: Test ${{ matrix.formula }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+        formula: [cleanmac, github-overview]
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Tap repository
+        run: brew tap toshon-jennings/tap "$PWD"
+
+      - name: Install and test ${{ matrix.formula }}
+        run: |
+          brew install "${{ matrix.formula }}"
+          brew test "${{ matrix.formula }}"
