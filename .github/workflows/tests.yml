@@ -33,9 +33,14 @@ jobs:
         run: |
           brew untap toshon-jennings/tap 2>/dev/null || true
           brew tap toshon-jennings/tap "$PWD"
+          brew trust toshon-jennings/tap
 
       - name: Audit formulae (strict, online)
         run: brew audit --strict --online cleanmac github-overview
+
+      - name: Clean up tap
+        if: always()
+        run: brew untap toshon-jennings/tap 2>/dev/null || true
 
   style:
     name: Style check
@@ -51,9 +56,14 @@ jobs:
         run: |
           brew untap toshon-jennings/tap 2>/dev/null || true
           brew tap toshon-jennings/tap "$PWD"
+          brew trust toshon-jennings/tap
 
       - name: Check formula style and syntax
         run: brew style cleanmac github-overview
+
+      - name: Clean up tap
+        if: always()
+        run: brew untap toshon-jennings/tap 2>/dev/null || true
 
   test:
     name: Test ${{ matrix.formula }} (${{ matrix.os }})
@@ -74,8 +84,13 @@ jobs:
         run: |
           brew untap toshon-jennings/tap 2>/dev/null || true
           brew tap toshon-jennings/tap "$PWD"
+          brew trust toshon-jennings/tap
 
       - name: Install and test ${{ matrix.formula }}
         run: |
           brew install "${{ matrix.formula }}"
           brew test "${{ matrix.formula }}"
+
+      - name: Clean up tap
+        if: always()
+        run: brew untap toshon-jennings/tap 2>/dev/null || true
