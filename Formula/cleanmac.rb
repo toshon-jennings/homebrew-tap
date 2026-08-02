@@ -1,9 +1,9 @@
 class Cleanmac < Formula
   desc "Lightweight developer cache cleanup utility for macOS"
   homepage "https://github.com/toshon-jennings/cleanmac"
-  url "https://github.com/toshon-jennings/cleanmac/archive/refs/tags/v1.1.0.tar.gz"
-  version "1.1.0"
-  sha256 "2f7a10039a5991de93a40a217a3c6bbf268adf15b9b54fc65540971b9dea2ee6"
+  url "https://github.com/toshon-jennings/cleanmac/archive/refs/tags/v1.2.0.tar.gz"
+  version "1.2.0"
+  sha256 "d172f518b544633b570c80bceabb7b84689e88eefe32a0fda9f9cd569aa354f9"
   license "MIT"
 
   def install
