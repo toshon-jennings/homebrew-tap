@@ -27,10 +27,12 @@ jobs:
           done
 
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@1f8e202ffddf94def7f42f6fa3a482e821489f9c
 
       - name: Tap repository
-        run: brew tap toshon-jennings/tap "$PWD"
+        run: |
+          brew untap toshon-jennings/tap 2>/dev/null || true
+          brew tap toshon-jennings/tap "$PWD"
 
       - name: Audit formulae (strict, online)
         run: brew audit --strict --online cleanmac github-overview
@@ -43,10 +45,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@1f8e202ffddf94def7f42f6fa3a482e821489f9c
 
       - name: Tap repository
-        run: brew tap toshon-jennings/tap "$PWD"
+        run: |
+          brew untap toshon-jennings/tap 2>/dev/null || true
+          brew tap toshon-jennings/tap "$PWD"
 
       - name: Check formula style and syntax
         run: brew style cleanmac github-overview
@@ -64,10 +68,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@1f8e202ffddf94def7f42f6fa3a482e821489f9c
 
       - name: Tap repository
-        run: brew tap toshon-jennings/tap "$PWD"
+        run: |
+          brew untap toshon-jennings/tap 2>/dev/null || true
+          brew tap toshon-jennings/tap "$PWD"
 
       - name: Install and test ${{ matrix.formula }}
         run: |
