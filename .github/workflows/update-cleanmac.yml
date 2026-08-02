@@ -1,0 +1,62 @@
+name: Update Cleanmac Formula
+
+on:
+  release:
+    types: [published]
+    paths:
+      - '**'
+
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to update to (e.g., v1.2.0)'
+        required: true
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.release.tag_name, 'cleanmac') || github.event.release.repository.full_name == 'toshon-jennings/cleanmac'
+    steps:
+      - name: Checkout tap repo
+        uses: actions/checkout@v4
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get tarball sha256
+        id: sha
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          URL="https://github.com/toshon-jennings/cleanmac/archive/refs/tags/${TAG}.tar.gz"
+          SHA=$(curl -sL "$URL" | shasum -a 256 | cut -d' ' -f1)
+          echo "sha256=$SHA" >> $GITHUB_OUTPUT
+          echo "Downloaded and hashed $URL"
+
+      - name: Update formula
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          VERSION="${TAG#v}"
+          SHA="${{ steps.sha.outputs.sha256 }}"
+          FORMULA="Formula/cleanmac.rb"
+
+          sed -i.bak "s|url \".*\"|url \"https://github.com/toshon-jennings/cleanmac/archive/refs/tags/${TAG}.tar.gz\"|" "$FORMULA"
+          sed -i.bak "s|version \".*\"|version \"${VERSION}\"|" "$FORMULA"
+          sed -i.bak "s|sha256 \".*\"|sha256 \"${SHA}\"|" "$FORMULA"
+          rm -f "${FORMULA}.bak"
+
+          echo "Updated $FORMULA to $TAG (sha256: $SHA)"
+
+      - name: Commit and push
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/cleanmac.rb
+          git commit -m "chore: update cleanmac to ${TAG}"
+          git push
