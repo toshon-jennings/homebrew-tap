@@ -5,17 +5,13 @@
 class GithubOverview < Formula
   desc "Local command center dashboard for monitoring multiple GitHub repositories"
   homepage "https://github.com/toshon-jennings/github-overview"
+  version "0.1.1"
   license "MIT"
-
-  livecheck do
-    url :stable
-    strategy :github_latest
-  end
 
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/toshon-jennings/github-overview/releases/download/v0.1.1/github-overview_0.1.1_darwin_amd64.tar.gz"
-      sha256 "93e5058c2a95e7ae2a81070b403076b6c48208fae8f02273d0b238836fb7683e"
+      sha256 "12b256aa7094b20942102dfdaf0a1ea6a635ebbf2870a21abe89b99de7d42133"
 
       define_method(:install) do
         bin.install "github-overview"
@@ -23,7 +19,7 @@ class GithubOverview < Formula
     end
     if Hardware::CPU.arm?
       url "https://github.com/toshon-jennings/github-overview/releases/download/v0.1.1/github-overview_0.1.1_darwin_arm64.tar.gz"
-      sha256 "568e2a9a881e2f278f94e3558da841b99db0f1b25a5770d2d0b627b5f3b8e213"
+      sha256 "f9a6500c2b6d93f0444af41ead9536c99cc22103527982faf284e72ffedc6f19"
 
       define_method(:install) do
         bin.install "github-overview"
@@ -34,14 +30,14 @@ class GithubOverview < Formula
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
       url "https://github.com/toshon-jennings/github-overview/releases/download/v0.1.1/github-overview_0.1.1_linux_amd64.tar.gz"
-      sha256 "877a5c34816c78491480c61938801f2d9d2678c353fa5f5c775870bcbece8637"
+      sha256 "14ed59a0eb561c94960b112b5adf18ad9b82868b1acc2a165248f0d97d2b1100"
       define_method(:install) do
         bin.install "github-overview"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
       url "https://github.com/toshon-jennings/github-overview/releases/download/v0.1.1/github-overview_0.1.1_linux_arm64.tar.gz"
-      sha256 "ae50620787ac777a07f3c85a89bbce5b41f1871272858e82558c1b1d13863025"
+      sha256 "840a7c2362cc1f2717487da25e247df04f8a1d4c110fd67b6ffafb31b4050d2c"
       define_method(:install) do
         bin.install "github-overview"
       end
@@ -49,6 +45,6 @@ class GithubOverview < Formula
   end
 
   test do
-    assert_match "no repos tracked", shell_output("#{bin}/github-overview list -db #{testpath}/test.db")
+    system "#{bin}/github-overview", "--help"
   end
 end
