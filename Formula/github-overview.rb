@@ -7,6 +7,11 @@ class GithubOverview < Formula
   homepage "https://github.com/toshon-jennings/github-overview"
   license "MIT"
 
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/toshon-jennings/github-overview/releases/download/v0.1.1/github-overview_0.1.1_darwin_amd64.tar.gz"
@@ -44,6 +49,6 @@ class GithubOverview < Formula
   end
 
   test do
-    system "#{bin}/github-overview", "--help"
+    assert_match "no repos tracked", shell_output("#{bin}/github-overview list -db #{testpath}/test.db")
   end
 end
