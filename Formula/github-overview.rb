@@ -5,7 +5,6 @@
 class GithubOverview < Formula
   desc "Local command center dashboard for monitoring multiple GitHub repositories"
   homepage "https://github.com/toshon-jennings/github-overview"
-  version "0.1.1"
   license "MIT"
 
   on_macos do
