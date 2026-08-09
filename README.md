@@ -8,6 +8,7 @@ Add the tap, then install any formula:
 
 ```sh
 brew tap toshon-jennings/tap
+brew install --cask fmk-toolbox
 brew install cleanmac
 brew install github-overview
 ```
@@ -15,15 +16,26 @@ brew install github-overview
 Upgrade everything from this tap:
 
 ```sh
-brew upgrade cleanmac github-overview
+brew upgrade fmk-toolbox cleanmac github-overview
 ```
 
-## Formulae
+## Formulae & Casks
 
-| Formula | Description | Version |
-| ------- | ----------- | ------- |
-| `cleanmac` | Lightweight developer cache cleanup utility for macOS | [![Cleanmac](https://img.shields.io/github/v/tag/toshon-jennings/cleanmac?label=version)](https://github.com/toshon-jennings/cleanmac/releases) |
-| `github-overview` | Local command center dashboard for monitoring multiple GitHub repositories | [![GitHub Overview](https://img.shields.io/github/v/tag/toshon-jennings/github-overview?label=version)](https://github.com/toshon-jennings/github-overview/releases) |
+| Package | Type | Description | Version |
+| ------- | ---- | ----------- | ------- |
+| `fmk-toolbox` | Cask | Lightweight local-first macOS menu bar app for managing daily tools & links | [![FMK ToolBox](https://img.shields.io/github/v/tag/toshon-jennings/forget-me-knot?label=version)](https://github.com/toshon-jennings/forget-me-knot/releases) |
+| `cleanmac` | Formula | Lightweight developer cache cleanup utility for macOS | [![Cleanmac](https://img.shields.io/github/v/tag/toshon-jennings/cleanmac?label=version)](https://github.com/toshon-jennings/cleanmac/releases) |
+| `github-overview` | Formula | Local command center dashboard for monitoring multiple GitHub repositories | [![GitHub Overview](https://img.shields.io/github/v/tag/toshon-jennings/github-overview?label=version)](https://github.com/toshon-jennings/github-overview/releases) |
+
+### fmk-toolbox
+
+Lightweight local-first macOS menu bar app for managing daily tools, links, and active subscriptions.
+
+```sh
+brew install --cask toshon-jennings/tap/fmk-toolbox
+xattr -cr "/Applications/Forget-Me-Knot ToolBox.app"
+open "/Applications/Forget-Me-Knot ToolBox.app"
+```
 
 ### cleanmac
 
