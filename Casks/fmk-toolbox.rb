@@ -1,4 +1,4 @@
-cask "toolbox" do
+cask "fmk-toolbox" do
   version "0.1.4"
   sha256 "39898f674d0bfc7d83d6e74c0ea59a4f4e00cf65d2df150774c8a8f5c488df5c"
 
