@@ -1,6 +1,6 @@
 cask "toolbox" do
-  version "0.1.7"
-  sha256 "77e00839171a65a1fdf09e48881ab75d1eb1b56f087aab9adcf85618b09446b7"
+  version "0.1.9"
+  sha256 "696e20df5e4be66593ace6dfc538f0c131d1ae662b2d270ac8038da07aec6985"
 
   url "https://github.com/toshon-jennings/forget-me-knot/releases/download/v#{version}/Forget-Me-Knot.ToolBox_#{version}_aarch64.dmg"
   name "Forget-Me-Knot ToolBox"
