@@ -1,0 +1,75 @@
+name: Update Open Anyway Formula
+
+on:
+  repository_dispatch:
+    types: [open-anyway-release]
+
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to update to (e.g., v0.3.0)'
+        required: true
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tap repo
+        uses: actions/checkout@v4
+
+      # Both sources are untrusted: client_payload is settable by anyone who can
+      # fire a repository_dispatch. Everything downstream reads $TAG from the
+      # environment, never a ${{ }} expression spliced into a shell command, and
+      # the tag has to look like a version before it is used at all.
+      - name: Determine and validate version
+        id: version
+        env:
+          RAW_TAG: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.event.client_payload.tag }}
+        run: |
+          set -euo pipefail
+          if ! printf '%s' "$RAW_TAG" | grep -Eq '^v?[0-9]+(\.[0-9]+){0,3}$'; then
+            echo "Refusing tag that is not a plain version: $RAW_TAG" >&2
+            exit 1
+          fi
+          echo "tag=$RAW_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Get tarball sha256
+        id: sha
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          URL="https://github.com/toshon-jennings/open-anyway/archive/refs/tags/${TAG}.tar.gz"
+          SHA=$(curl -sL --fail "$URL" | shasum -a 256 | cut -d' ' -f1)
+          echo "sha256=$SHA" >> "$GITHUB_OUTPUT"
+          echo "Hashed $URL"
+
+      - name: Update formula
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+          SHA: ${{ steps.sha.outputs.sha256 }}
+        run: |
+          set -euo pipefail
+          FORMULA="Formula/open-anyway.rb"
+
+          sed -i.bak "s|^  url \".*\"|  url \"https://github.com/toshon-jennings/open-anyway/archive/refs/tags/${TAG}.tar.gz\"|" "$FORMULA"
+          sed -i.bak "s|^  sha256 \".*\"|  sha256 \"${SHA}\"|" "$FORMULA"
+          rm -f "${FORMULA}.bak"
+
+          ruby -c "$FORMULA"
+          echo "Updated $FORMULA to $TAG (sha256: $SHA)"
+
+      - name: Commit and push
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/open-anyway.rb
+          if git diff --staged --quiet; then
+            echo "Formula already at $TAG"
+            exit 0
+          fi
+          git commit -m "chore: update open-anyway to $TAG"
+          git push
