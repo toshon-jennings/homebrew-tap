@@ -2,28 +2,49 @@
 
 Homebrew tap for [Toshon Jennings](https://github.com/toshon-jennings)' tools.
 
-## Install
+## Install and update
 
-Add the tap, then install any formula:
+Add the tap:
 
 ```sh
 brew tap toshon-jennings/tap
-brew install --cask fmk-toolbox
-brew install cleanmac
-brew install github-overview
 ```
 
-Upgrade everything from this tap:
+Install the macOS apps:
 
 ```sh
-brew upgrade fmk-toolbox cleanmac github-overview
+brew install --cask fmk-toolbox oc-rig
 ```
+
+Install Open Anyway and the command-line utilities:
+
+```sh
+brew install open-anyway cleanmac github-overview
+```
+
+Refresh Homebrew package information:
+
+```sh
+brew update
+```
+
+Upgrade the installed packages from this tap:
+
+```sh
+brew upgrade fmk-toolbox oc-rig open-anyway cleanmac github-overview
+```
+
+`fmk-toolbox` is the current cask name for Forget-Me-Knot ToolBox. The older
+`toolbox` cask remains available for compatibility with existing installations.
 
 ## Formulae & Casks
 
 | Package | Type | Description | Version |
 | ------- | ---- | ----------- | ------- |
 | `fmk-toolbox` | Cask | Lightweight local-first macOS menu bar app for managing daily tools & links | [![FMK ToolBox](https://img.shields.io/github/v/tag/toshon-jennings/forget-me-knot?label=version)](https://github.com/toshon-jennings/forget-me-knot/releases) |
+| `oc-rig` | Cask | Community OpenCode fork with an integrated terminal and persistent usage dashboard | [![OpenCode Rig](https://img.shields.io/github/v/tag/toshon-jennings/opencode-rig?label=version)](https://github.com/toshon-jennings/opencode-rig/releases) |
+| `toolbox` | Legacy cask | Compatibility name for older Forget-Me-Knot ToolBox installations | `v0.1.9` |
+| `open-anyway` | Formula | Menu bar app that opens Gatekeeper-blocked macOS apps | [![Open Anyway](https://img.shields.io/github/v/tag/toshon-jennings/open-anyway?label=version)](https://github.com/toshon-jennings/open-anyway/releases) |
 | `cleanmac` | Formula | Lightweight developer cache cleanup utility for macOS | [![Cleanmac](https://img.shields.io/github/v/tag/toshon-jennings/cleanmac?label=version)](https://github.com/toshon-jennings/cleanmac/releases) |
 | `github-overview` | Formula | Local command center dashboard for monitoring multiple GitHub repositories | [![GitHub Overview](https://img.shields.io/github/v/tag/toshon-jennings/github-overview?label=version)](https://github.com/toshon-jennings/github-overview/releases) |
 
@@ -33,8 +54,36 @@ Lightweight local-first macOS menu bar app for managing daily tools, links, and 
 
 ```sh
 brew install --cask toshon-jennings/tap/fmk-toolbox
+```
+
+```sh
 xattr -cr "/Applications/Forget-Me-Knot ToolBox.app"
+```
+
+```sh
 open "/Applications/Forget-Me-Knot ToolBox.app"
+```
+
+### oc-rig
+
+Community OpenCode fork with an integrated terminal, workbench, and persistent
+usage dashboard.
+
+```sh
+brew install --cask toshon-jennings/tap/oc-rig
+```
+
+### open-anyway
+
+Menu bar app for finding and opening apps blocked by macOS Gatekeeper. Homebrew
+builds it locally so the app itself does not arrive quarantined.
+
+```sh
+brew install toshon-jennings/tap/open-anyway
+```
+
+```sh
+open "$(brew --prefix open-anyway)/Open Anyway.app"
 ```
 
 ### cleanmac
@@ -74,6 +123,8 @@ github-overview --help     # All options
 - **`cleanmac`** is updated by the
   [`update-cleanmac.yml`](.github/workflows/update-cleanmac.yml) workflow when a
   new release is tagged (or manually via `workflow_dispatch` with a tag input).
+- **`open-anyway`** is built locally from its tagged source release so the app
+  does not inherit a download quarantine attribute.
 
 ## Development
 

@@ -1,11 +1,13 @@
 cask "oc-rig" do
-  version "0.1.7"
-  sha256 "76e83b30d58b4c4d18a4e8bbea1de72403dc367bd9b0e62f4ca5f013873d3fbe"
+  version "0.2.20"
+  sha256 "d359340b72ec0f213a3a0bbf38317bcb13fc143eb9922735029aa15e01d0cf9b"
 
   url "https://github.com/toshon-jennings/opencode-rig/releases/download/v#{version}/opencode-desktop-mac-arm64.dmg"
   name "OpenCode Rig"
-  desc "Community fork of the AI coding agent with a persistent usage dashboard and integrated terminal"
+  desc "OpenCode fork with an integrated terminal and persistent usage dashboard"
   homepage "https://github.com/toshon-jennings/opencode-rig"
+
+  depends_on macos: :monterey
 
   app "OpenCode Rig.app"
 
