@@ -1,8 +1,8 @@
 class OpenAnyway < Formula
   desc "Menu bar app that opens Gatekeeper-blocked macOS apps"
   homepage "https://github.com/toshon-jennings/open-anyway"
-  url "https://github.com/toshon-jennings/open-anyway/archive/refs/tags/v0.2.2.tar.gz"
-  sha256 "8c031a0b827809a7e42ffe1033fc2dd5c0c5ae23f83b66856313b3ac79c81fe0"
+  url "https://github.com/toshon-jennings/open-anyway/archive/refs/tags/v0.2.3.tar.gz"
+  sha256 "54604d5ce4d7eea50fdaafe83ed99778d6c6ed5a559611404ab8a24895e1f0c9"
   license "MIT"
 
   head "https://github.com/toshon-jennings/open-anyway.git", branch: "main"
