@@ -19,7 +19,7 @@ brew install --cask fmk-toolbox oc-rig
 Install Open Anyway and the command-line utilities:
 
 ```sh
-brew install open-anyway cleanmac github-overview
+brew install open-anyway cleanmac github-overview eink
 ```
 
 Refresh Homebrew package information:
@@ -31,7 +31,7 @@ brew update
 Upgrade the installed packages from this tap:
 
 ```sh
-brew upgrade fmk-toolbox oc-rig open-anyway cleanmac github-overview
+brew upgrade fmk-toolbox oc-rig open-anyway cleanmac github-overview eink
 ```
 
 `fmk-toolbox` is the current cask name for Forget-Me-Knot ToolBox. The older
@@ -47,6 +47,7 @@ brew upgrade fmk-toolbox oc-rig open-anyway cleanmac github-overview
 | `open-anyway` | Formula | Menu bar app that opens Gatekeeper-blocked macOS apps | [![Open Anyway](https://img.shields.io/github/v/tag/toshon-jennings/open-anyway?label=version)](https://github.com/toshon-jennings/open-anyway/releases) |
 | `cleanmac` | Formula | Lightweight developer cache cleanup utility for macOS | [![Cleanmac](https://img.shields.io/github/v/tag/toshon-jennings/cleanmac?label=version)](https://github.com/toshon-jennings/cleanmac/releases) |
 | `github-overview` | Formula | Local command center dashboard for monitoring multiple GitHub repositories | [![GitHub Overview](https://img.shields.io/github/v/tag/toshon-jennings/github-overview?label=version)](https://github.com/toshon-jennings/github-overview/releases) |
+| `eink` | Formula | Lightweight, reversible E-Ink mode utility for macOS | [![E-Ink Mode](https://img.shields.io/github/v/tag/toshon-jennings/eink-mode?label=version)](https://github.com/toshon-jennings/eink-mode/releases) |
 
 ### fmk-toolbox
 
@@ -109,6 +110,19 @@ trends, useful tools).
 github-overview            # Serve the dashboard
 github-overview --help     # All options
 ```
+
+### eink
+
+Approximates a calm, distraction-free E-Ink display workflow on macOS by dynamically configuring appearance, grayscale, contrast, motion, and solid paper backgrounds with full baseline restoration.
+
+```sh
+eink on              # Activate light e-ink mode
+eink on dark         # Activate dark e-ink mode
+eink off             # Restore original macOS settings
+eink status          # View current active status and ledger
+```
+
+See the [eink-mode README](https://github.com/toshon-jennings/eink-mode) for all options and recovery instructions.
 
 ## Keeping formulae up to date
 
